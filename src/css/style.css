@@ -1,0 +1,63 @@
+body {
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+}
+#fabviewer {
+/* 	position: absolute; */
+	left: 0px;
+	top: 0px;
+}
+
+#fabvcontainer{
+/* 	border: 1px solid green; */
+	min-width: 150px;
+	min-height: 150px;
+	float: left;
+}
+
+#controlpanel{
+	border: 1px solid black;
+	padding: 5px;
+	min-width: 180px;
+	min-height: 50px;
+	position: absolute;
+	width: 20%;
+	background-color: rgba(255, 255, 255, .15);  
+ 	backdrop-filter: blur(5px);
+ 	color: #85d6d1;
+ 	cursor: move;
+ 	text-shadow: 0px 0px 5px #85d6d1;
+ 	font-family: monospace;
+ 	border-radius: 5px;
+ 	left: 1%;
+ 	top: 1%;
+}
+
+
+    
+#datapanel{
+	clear: left;
+	width: 50%;
+	height: 100%;
+	min-height: 150px;
+	border: 1px solid gray;
+}
+
+/* #catalogues{ */
+/* 	height: 150px; */
+/* 	overflow: scroll; */
+/* } */
+
+.button {
+  border: none;
+  color: white;
+  padding: 5px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  background-color: #008CBA;
+}
