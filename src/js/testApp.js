@@ -7,6 +7,7 @@ class TestApp{
 
 	
 	init(){
+		let DEBUG = true
 		if (DEBUG){
 			console.log("[FVApp::init]");
 		}
@@ -20,6 +21,9 @@ class TestApp{
 			this.gl = canvas.getContext("webgl2", {
 				alpha: false
 			});
+			if (DEBUG){
+				console.log(this.gl);
+			}
 			let params = new URLSearchParams(location.search);
 			if (params.get('debug') != null){
 				console.warn("WebGL DEBUG MODE ON");
@@ -28,7 +32,9 @@ class TestApp{
 			
 			this.gl.viewportWidth = canvas.width;
 			this.gl.viewportHeight = canvas.height;
+			this.gl.viewport(0,0,canvas.width, canvas.height);
 			this.gl.clearColor(0.412, 0.412, 0.412, 1.0);
+			this.gl.clear(this.gl.COLOR_BUFFER_BIT)
 			
 			this.gl.enable(this.gl.DEPTH_TEST);
 			
@@ -59,6 +65,7 @@ class TestApp{
 		this.gl.attachShader(this.shaderProgram, vertexShader);
 		this.gl.attachShader(this.shaderProgram, fragmentShader);
 		this.gl.linkProgram(this.shaderProgram);
+		this.gl.useProgram(this.shaderProgram);
 		this.gl.program = this.shaderProgram;
 
 		if (!this.gl.getProgramParameter(this.shaderProgram, this.gl.LINK_STATUS)) {
@@ -117,6 +124,7 @@ class TestApp{
 	tick() {
 		
 		this.drawScene();
+		DEBUG = true;
 		if(DEBUG){
 			// Only do this at DEBUG since every getError call takes 5-10ms
 			var error = this.gl.getError();
@@ -132,7 +140,7 @@ class TestApp{
 	
 	drawScene(){
 		this.tile.draw();
-		console.log("drawing")
+		// console.log("drawing")
 	};
 	
 	

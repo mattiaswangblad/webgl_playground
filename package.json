@@ -1,5 +1,5 @@
 {
-  "name": "webglTest",
+  "name": "webgl_playground",
   "version": "1.0.0",
   "description": "WebGL 3D test",
   "private": true,
