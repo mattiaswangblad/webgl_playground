@@ -1,63 +1,65 @@
 import Tile from './Tile';
 
-class TestApp{
-	constructor(){
+class TestApp {
+	constructor() {
 		this.init();
 	}
 
-	
-	init(){
+
+	init() {
 		let DEBUG = true
-		if (DEBUG){
+		if (DEBUG) {
 			console.log("[FVApp::init]");
 		}
 		var canvas = document.getElementById("webglcanvas");
-		
+
 		try {
-			if (DEBUG){
+			if (DEBUG) {
 				console.log(canvas);
 			}
-			
+
 			this.gl = canvas.getContext("webgl2", {
-				alpha: false
+				// alpha: false,
+				premultipliedAlpha: false
 			});
-			if (DEBUG){
+			if (DEBUG) {
 				console.log(this.gl);
 			}
 			let params = new URLSearchParams(location.search);
-			if (params.get('debug') != null){
+			if (params.get('debug') != null) {
 				console.warn("WebGL DEBUG MODE ON");
-				this.gl = WebGLDebugUtils.makeDebugContext(this.gl);	
+				this.gl = WebGLDebugUtils.makeDebugContext(this.gl);
 			}
-			
+
 			this.gl.viewportWidth = canvas.width;
 			this.gl.viewportHeight = canvas.height;
-			this.gl.viewport(0,0,canvas.width, canvas.height);
+			this.gl.viewport(0, 0, canvas.width, canvas.height);
 			this.gl.clearColor(0.412, 0.412, 0.412, 1.0);
 			this.gl.clear(this.gl.COLOR_BUFFER_BIT)
-			
-			this.gl.enable(this.gl.DEPTH_TEST);
-			
+			this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+			this.gl.enable(this.gl.BLEND);
+			this.gl.disable(this.gl.DEPTH_TEST);
+
 		} catch (e) {
 			console.log("Error instansiating WebGL context");
 		}
 		if (!this.gl) {
 			alert("Could not initialise WebGL, sorry :-(");
 		}
-		
-		
+
+
 		global.gl = this.gl;
-		
+
 		this.initShaders()
 		this.loadData()
 	};
 
-	loadData(){
+	loadData() {
 		let imgUrl = "http://skiesdev.esac.esa.int/hst-outreach3/Norder9/Dir160000/Npix167928.png";
 		this.tile = new Tile(this.gl, imgUrl);
 	}
-	
-	initShaders () {
+
+	initShaders() {
 		var _self = this;
 		var fragmentShader = getShader("hips-shader-fs");
 		var vertexShader = getShader("hips-shader-vs");
@@ -68,6 +70,7 @@ class TestApp{
 		this.gl.useProgram(this.shaderProgram);
 		this.gl.program = this.shaderProgram;
 
+
 		if (!this.gl.getProgramParameter(this.shaderProgram, this.gl.LINK_STATUS)) {
 			alert("Could not initialise shaders");
 		}
@@ -77,8 +80,8 @@ class TestApp{
 		this.shaderProgram.textureCoordAttribute = this.gl.getAttribLocation(this.shaderProgram, "aTextureCoord");
 
 
-	    function getShader(id){
-	    	var shaderScript = document.getElementById(id);
+		function getShader(id) {
+			var shaderScript = document.getElementById(id);
 			if (!shaderScript) {
 				return null;
 			}
@@ -105,45 +108,45 @@ class TestApp{
 			_self.gl.compileShader(shader);
 
 			if (!_self.gl.getShaderParameter(shader, _self.gl.COMPILE_STATUS)) {
-				alert(_self.gl.getShaderInfoLog(shader));
+				console.error(_self.gl.getShaderInfoLog(shader));
 				return null;
 			}
 
 			return shader;
-	    }
+		}
 
 	}
 
-	run(){
-		if (DEBUG){
+	run() {
+		if (DEBUG) {
 			console.log("[FVApp::run]");
 		}
 		this.tick();
 	};
-	
+
 	tick() {
-		
+
 		this.drawScene();
 		DEBUG = true;
-		if(DEBUG){
+		if (DEBUG) {
 			// Only do this at DEBUG since every getError call takes 5-10ms
 			var error = this.gl.getError();
 			if (error != this.gl.NO_ERROR && error != this.gl.CONTEXT_LOST_WEBGL) {
-				console.log("GL error: "+error);
+				console.log("GL error: " + error);
 			}
 		}
 
-		this.fabVReqID = requestAnimationFrame(()=>this.tick());
-		
+		this.fabVReqID = requestAnimationFrame(() => this.tick());
+
 	}
 
-	
-	drawScene(){
+
+	drawScene() {
 		this.tile.draw();
 		// console.log("drawing")
 	};
-	
-	
+
+
 }
 
 export default TestApp;
