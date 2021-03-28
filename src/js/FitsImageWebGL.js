@@ -174,7 +174,7 @@ class FitsImageWebGL extends WcsImage {
         }
         this.axisSize = new Array(this.numAxis);
         for (var axis = 0; axis < this.numAxis; axis++) {
-            this.axisSize[axis] = parseInt(this._header$1['NAXIS' + axis + 1)]);
+            this.axisSize[axis] = parseInt(this._header$1['NAXIS' + axis + 1]);
             this._bufferSize$1 *= this.axisSize[axis];
         }
         var bitsPix = parseInt(this._header$1['BITPIX']);

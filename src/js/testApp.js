@@ -8,9 +8,6 @@ class TestApp {
 
 	init() {
 		let DEBUG = true
-		if (DEBUG) {
-			console.log("[FVApp::init]");
-		}
 		var canvas = document.getElementById("webglcanvas");
 
 		try {
@@ -43,12 +40,6 @@ class TestApp {
 		} catch (e) {
 			console.log("Error instansiating WebGL context");
 		}
-		if (!this.gl) {
-			alert("Could not initialise WebGL, sorry :-(");
-		}
-
-
-		global.gl = this.gl;
 
 		this.initShaders()
 		this.loadData()
@@ -118,9 +109,6 @@ class TestApp {
 	}
 
 	run() {
-		if (DEBUG) {
-			console.log("[FVApp::run]");
-		}
 		this.tick();
 	};
 
@@ -136,8 +124,7 @@ class TestApp {
 			}
 		}
 
-		this.fabVReqID = requestAnimationFrame(() => this.tick());
-
+		requestAnimationFrame(() => this.tick());
 	}
 
 

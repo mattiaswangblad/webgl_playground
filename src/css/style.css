@@ -3,18 +3,6 @@ body {
 	border: 0px;
 	padding: 0px;
 }
-#fabviewer {
-/* 	position: absolute; */
-	left: 0px;
-	top: 0px;
-}
-
-#fabvcontainer{
-/* 	border: 1px solid green; */
-	min-width: 150px;
-	min-height: 150px;
-	float: left;
-}
 
 #controlpanel{
 	border: 1px solid black;
