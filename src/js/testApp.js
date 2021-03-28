@@ -19,6 +19,27 @@ class TestApp {
 				// alpha: false,
 				premultipliedAlpha: false
 			});
+			if (!this.gl) {
+				if (typeof WebGL2RenderingContext !== 'undefined') {
+				  console.log('Your browser appears to support WebGL2 but it might be disabled. Try updating your OS and/or video card drivers');
+				} else {
+					console.log('Your browser has no WebGL2 support at all'); 
+				}
+				console.log('Testing WebGL1');
+				//TODO check if safari -> recommend enabling webgl2 flag
+				this.gl = canvas.getContext("webgl", {
+					premultipliedAlpha: false
+				});
+				if (!this.gl) {
+					console.log('WebGL1 not supported');
+				} else {
+					console.log('WebGL1 supported!');
+				}
+
+			  } else {
+				console.log('WebGL2 Supported!');
+			  }
+
 			if (DEBUG) {
 				console.log(this.gl);
 			}
